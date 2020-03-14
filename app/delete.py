@@ -1,8 +1,7 @@
-from flask import Flask
-import json
-import requests
 import os.path
 from os import path
+from flask import Flask
+import json
 
 app = Flask(__name__)
 
@@ -11,13 +10,13 @@ app = Flask(__name__)
 def post_json(id):
     # if requests.methods == 'GET':
     #     return "Your methods is wrong"
-    # elif requests.methods == 'POST':
+    # elif requests.methods == 'DELETE':
 
     a = path.exists(id)
     if a == 0:
         return "File isn't existed"
     else:
-        del id
+        os.remove(id)
         return 'Done'
 
 
