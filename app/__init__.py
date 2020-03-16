@@ -1,4 +1,5 @@
 from flask import Flask
+from flask import request
 import os
 import json
 
@@ -42,3 +43,51 @@ def delete(filename):
       msg = "Something went wrong!"
   return msg
 
+
+@app.route('/json/<string:filename>', methods=['POST'])
+def post(filename):
+  msg = ""
+  path = os.path.join(app.root_path, 'data', filename)
+  if os.path.isfile(path):
+    msg = "File exists!"
+  else:
+    try:
+      file = open(path, 'w')
+    except:
+      msg = "Something went wrong!"
+    else:
+      try:
+        if file.write(json.dumps(request.json, indent=2)) == 0:
+          msg = "Data should not be empty"
+        else:
+          msg = "OK"
+      except:
+        msg = "Something went wrong!"
+        os.remove(path)
+      finally:
+        file.close()
+  return msg
+
+
+@app.route('/json/<string:filename>', methods=['PUT'])
+def put(filename):
+  msg = ""
+  path = os.path.join(app.root_path, 'data', filename)
+  if not os.path.isfile(path):
+    msg = "File not exists!"
+  else:
+    try:
+      file = open(path, 'w')
+    except:
+      msg = "Something went wrong!"
+    else:
+      try:
+        if file.write(json.dumps(request.json, indent=2)) == 0:
+          msg = "Data should not be empty"
+        else:
+          msg = "OK"
+      except:
+        msg = "Something went wrong!"
+      finally:
+        file.close()
+  return msg
