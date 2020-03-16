@@ -39,7 +39,8 @@ def delete(filename):
     try:
       os.remove(path)
       msg = "OK"
-    except:
+    except Exception as err:
+      print("{0}".format(err))
       msg = "Something went wrong!"
   return msg
 
@@ -53,16 +54,18 @@ def post(filename):
   else:
     try:
       file = open(path, 'w')
-    except:
+    except Exception as err:
       msg = "Something went wrong!"
+      print("{0}".format(err))
     else:
       try:
         if file.write(json.dumps(request.json, indent=2)) == 0:
           msg = "Data should not be empty"
         else:
           msg = "OK"
-      except:
+      except Exception as err:
         msg = "Something went wrong!"
+        print("{0}".format(err))
         os.remove(path)
       finally:
         file.close()
@@ -78,15 +81,17 @@ def put(filename):
   else:
     try:
       file = open(path, 'w')
-    except:
+    except Exception as err:
       msg = "Something went wrong!"
+      print("{0}".format(err))
     else:
       try:
         if file.write(json.dumps(request.json, indent=2)) == 0:
           msg = "Data should not be empty"
         else:
           msg = "OK"
-      except:
+      except Exception as err:
+        print("{0}".format(err))
         msg = "Something went wrong!"
       finally:
         file.close()
