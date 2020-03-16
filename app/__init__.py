@@ -26,3 +26,19 @@ def get(filename):
     finally:
       file.close()
   return msg
+
+
+@app.route('/json/<string:filename>', methods=['DELETE'])
+def delete(filename):
+  msg = ""
+  path = os.path.join(app.root_path, 'data', filename)
+  if not os.path.isfile(path):
+    msg = "File not found!"
+  else:
+    try:
+      os.remove(path)
+      msg = "OK"
+    except:
+      msg = "Something went wrong!"
+  return msg
+
