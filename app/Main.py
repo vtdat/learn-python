@@ -8,19 +8,20 @@ app = Flask(__name__)
 
 @app.route('/get/<id>', methods=['GET'])
 def get_json(id):
-    f = open('/home/sand/Documents/learn-python/app/Data/' + id, "r")
-    y = json.dumps(f.read())
-    return y
+    track = os.path.join(app.root_path, 'Data', id)
+    f = open(track, "r")
+    return  f.read()
 
 
 @app.route('/post/<id>', methods=['POST'])
 def post_json(id):
-    a = path.isfile('/home/sand/Documents/learn-python/app/Data/'+id)
+    track = os.path.join(app.root_path, 'Data', id)
+    a = path.isfile(track)
     if a == 1:
         return "File was existed"
     else:
         data = request.data
-        with open('/home/sand/Documents/learn-python/app/Data/' + id, 'w') as f:
+        with open(track, 'w') as f:
             json.dump(data, f)
             f.close()
         return "Your file is created"
@@ -28,12 +29,13 @@ def post_json(id):
 
 @app.route('/put/<id>', methods=['PUT'])
 def put_json(id):
-    a = path.isfile('/home/sand/Documents/learn-python/app/Data/'+id)
+    track = os.path.join(app.root_path, 'Data', id)
+    a = path.isfile(track)
     if a == 0:
         return "File wasn't existed"
     else:
         data = request.data
-        with open('/home/sand/Documents/learn-python/app/Data/' + id, 'w') as f:
+        with open(track, 'w') as f:
             json.dump(data, f)
             f.close()
         return "Your file is updated"
@@ -41,11 +43,12 @@ def put_json(id):
 
 @app.route('/delete/<id>', methods=['DELETE'])
 def delete_json(id):
-    a = path.isfile('/home/sand/Documents/learn-python/app/Data/'+id)
+    track = os.path.join(app.root_path, 'Data', id)
+    a = path.isfile(track)
     if a == 0:
         return "File isn't existed"
     else:
-        os.remove(id)
+        os.remove(track)
         return 'File is deleted'
 
 
@@ -53,3 +56,4 @@ if __name__ == '__main__':
     app.run()
 
 # curl -H "Content-Type: application/json"  -XPOST -d '{"name":"xyz","age":"xyz"}' http://localhost:5000/post/
+
