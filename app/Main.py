@@ -56,3 +56,4 @@ if __name__ == '__main__':
     app.run()
 
 # curl -H "Content-Type: application/json"  -XPOST -d '{"name":"xyz","age":"xyz"}' http://localhost:5000/post/
+
