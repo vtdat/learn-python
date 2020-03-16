@@ -7,7 +7,7 @@ import os
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 data= 'data.json'
-path= os.path.join(app.root_path, 'Data', d)
+path= os.path.join(app.root_path, 'Data', data)
 f = open(path, 'r')
 users_dict = json.load(f)
 # List all users
