@@ -1,16 +1,15 @@
 import flask
 import json
 from flask import request, jsonify
+import os
+
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
-
-# Users dictionary
-users_dict = [{'id': 1,'name': 'Toan', 'age': 22},{'id': 2, 'name':'Dan', 'age': 14}]
-#users_dict = []
-#f = open("data.json", "r")
-#users_dict = json.dumps(f.read())
-
+dulieu= 'dulieu.json'
+path= os.path.join(app.root_path, 'Data', dulieu)
+f = open(path, 'r')
+users_dict = json.load(f)
 # List all users
 @app.route('/users', methods=['GET'])
 def get_users():
@@ -37,6 +36,7 @@ def get_users():
 @app.route('/user', methods=['GET'])
 def get_user_by_id():
     # get parameter 'id' from request
+
     if 'id' in request.args:
         id = int(request.args['id'])
     else:
@@ -51,6 +51,7 @@ def get_user_by_id():
 # Get one user by id from the path
 @app.route("/user/<id>", methods=['GET'])
 def get_user_by_id_in_path(id):
+
     for user in users_dict:
         if user['id'] == int(id):
             return jsonify(user)
@@ -60,15 +61,17 @@ def get_user_by_id_in_path(id):
 # Add new user
 @app.route('/user', methods=['POST'])
 def post_users():
+    users_dict_1=[]
     user = request.get_json()
-    user['id'] = len(users_dict) + 1
-    users_dict.append(user)
+    user['id'] = len(users_dict_1) + 1
+    users_dict_1.append(user)
     return jsonify(user)
 
 
 # Update user
 @app.route('/user', methods=['PUT'])
 def put_users():
+
     user = request.get_json()
     for i, u in enumerate(users_dict):
         if u['id'] == user['id']:
@@ -79,10 +82,9 @@ def put_users():
 # Delete user by id
 @app.route('/user/<id>', methods=['DELETE'])
 def delete_users(id):
+
     for user in users_dict:
         if user['id'] == int(id):
             users_dict.remove(user)
     return {}
-
-
 app.run()
