@@ -82,7 +82,7 @@ def delete_users(id):
     return {}
 
 
-app.run()
+app.run(debug=True, host='0.0.0.0')
 # curl -H "Content-Type: application/json"  -XPOST -d '{"name":"Adam","age":14,"id":1}' http://localhost:5000/user
 # curl -H "Content-Type: application/json"  -XPUT -d '[{"name":"Eva","age":14,"id":1}]' http://localhost:5000/user
 # curl -X DELETE http://localhost:5000/user/1
